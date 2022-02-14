@@ -1,0 +1,110 @@
+<app-titulo [titulo]="'Contatos'" [iconClass]="'fa fa-users'" [botaoListar]="true">
+</app-titulo>
+<div class="row">
+  <div [ngClass]="{'col-md-8 pr-0': modoEditar, 'col-md-12': !modoEditar}">
+    <div class="card rounded shadow-sm">
+      <form [formGroup]="form">
+        <div class="p-3">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>Nome</label>
+              <input type="text" class="form-control" [ngClass]="cssValidator(f.nome)" formControlName="nome"
+              placeholder="Insira o Nome" [(ngModel)]="contato.nome">
+              <div *ngIf="f.nome.errors?.required" class="invalid-feedback">
+                Nome é obrigatório.
+              </div>
+              <div *ngIf="f.nome.errors?.minlength" class="invalid-feedback">
+                Nome deve ter no mínimo 3 caracteres.
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>Sobre Nome</label>
+              <input type="text" class="form-control" [ngClass]="cssValidator(f.sobrenome)"
+              formControlName="sobrenome" placeholder="" [(ngModel)]="contato.sobrenome">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>Empresa</label>
+              <input type="text" class="form-control" [ngClass]="cssValidator(f.empresa)"
+              formControlName="empresa" placeholder="" [(ngModel)]="contato.empresa">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label>Telefone</label>
+              <input type="text" class="form-control" [ngClass]="cssValidator(f.telefone)"
+              formControlName="telefone" placeholder="(000) 90000-0000" [(ngModel)]="contato.telefone">
+              <div *ngIf="f.telefone.errors?.required && f.telefone.touched" class="invalid-feedback">
+                Telefone é obrigatório.
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>e-mail</label>
+              <input type="text" class="form-control" [ngClass]="cssValidator(f.email)"
+              formControlName="email" placeholder="e-mail" [(ngModel)]="contato.email">
+              <div *ngIf="f.email.errors?.email && f.email.touched" class="invalid-feedback">
+                Deve ser um endereço de e-mail válido
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="d-flex">
+            <button class="btn btn-outline-secondary mr-auto border" (click)="resetForm()">
+              Cancelar Alteração
+            </button>
+            <button class="btn btn-success" [disabled]="!form.valid" (click)="salvarContato()">
+              <!-- <span class="spinner-border spinner-border-sm mr-1"></span> -->
+              Salvar Contato
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    </div>
+
+    <div class="col-md-4" *ngIf="modoEditar">
+      <div [formGroup]="form" class="card-contato-view shadow-sm">
+        <div class="form-row">
+          <div class="form-group m-0">
+            <input type="file" #file (change)="onFileChange($event)" class="form-control is-invalid" placeholder="" style="display: none">
+          </div>
+        </div>
+        <div class="card profile-card-2">
+          <div class="card-img-block">
+            <img class="image" [src]="imagemURL" class="img-fluid" (click)="file.click()" alt="Card image cap"
+            tooltip="Uplaod de Nova Imagem" [adaptivePosition]="false" placement="bottom"
+            [style.width.px]="larguraImagem"
+            [style.margin.px]="margemImagem"
+            />
+          </div>
+          <div class="card-body pt-3">
+            <h4>{{contato.nome}}</h4>
+            <p class="card-text">
+              <b>Sobrenome:</b> {{contato.sobrenome}}
+              <br>
+              <b>Empresa:</b> {{contato.empresa}}
+            </p>
+            <hr>
+            <p class="card-text">
+              <b>Contatos</b><br>
+              <small class="text-muted">Telefone: {{contato.telefone}}</small>
+              <br>
+              <small class="text-muted">e-mail: {{contato.email}}</small>
+            </p>
+            <div class="row">
+              <div class="icon-block col-md-8 iconesSociais">
+                <a href="">
+                  <i class=""></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
